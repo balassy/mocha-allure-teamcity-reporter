@@ -1,0 +1,28 @@
+{
+  "uid" : "4bd5a49a-1de9-4944-ad22-998d082e0de2",
+  "name" : "failed test",
+  "title" : "failed test",
+  "time" : {
+    "start" : 1430234080868,
+    "stop" : 1430234080871,
+    "duration" : 3
+  },
+  "summary" : {
+    "attachments" : 0,
+    "steps" : 0
+  },
+  "failure" : {
+    "message" : "expected false to be truthy",
+    "stackTrace" : "AssertionError: expected false to be truthy"
+  },
+  "description" : {
+    "value" : "",
+    "type" : "TEXT"
+  },
+  "severity" : null,
+  "status" : "FAILED",
+  "steps" : [ ],
+  "attachments" : [ ],
+  "labels" : [ ],
+  "parameters" : [ ]
+}

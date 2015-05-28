@@ -1,0 +1,31 @@
+{
+  "name": "mocha-allure-teamcity-reporter",
+  "description": "Allure reporter for Mocha that produces reports for both TeamCity and Allure at the same time.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/balassy/mocha-allure-teamcity-reporter.git"
+  },  
+  "keywords": [
+    "mocha",
+    "allure",
+    "teamcity",
+    "test",
+    "coverage"
+  ],
+  "author": {
+    "name": "György Balássy",
+    "email": "balassy.gyorgy@outlook.com",
+    "url": "http://gyorgybalassy.wordpress.com/"
+  },
+  "bugs": {
+    "url": "https://github.com/balassy/mocha-allure-teamcity-reporter/issues"
+  },
+  "homepage": "https://github.com/balassy/mocha-allure-teamcity-reporter",
+  "dependencies": {
+    "allure-js-commons": "git+https://github.com/allure-framework/allure-js-commons.git",
+    "mocha": "^2.2.4"
+  }
+}

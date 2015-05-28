@@ -1,0 +1,28 @@
+{
+  "uid" : "b306bd9a-b553-4f26-ac1f-d353383dffe9",
+  "name" : "skipped test",
+  "title" : "skipped test",
+  "time" : {
+    "start" : 1430234080871,
+    "stop" : 1430234080871,
+    "duration" : 0
+  },
+  "summary" : {
+    "attachments" : 0,
+    "steps" : 0
+  },
+  "failure" : {
+    "message" : "Test ignored",
+    "stackTrace" : ""
+  },
+  "description" : {
+    "value" : "",
+    "type" : "TEXT"
+  },
+  "severity" : null,
+  "status" : null,
+  "steps" : [ ],
+  "attachments" : [ ],
+  "labels" : [ ],
+  "parameters" : [ ]
+}
