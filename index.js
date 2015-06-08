@@ -10,7 +10,7 @@ module.exports = AllureReporter;
 
 function AllureReporter(runner, opts) {
     Base.call(this, runner);
-    allureReporter.setOptions(opts.reporterOptions);
+    allureReporter.setOptions(opts.reporterOptions || {});
 
     runner.on('suite', function (suite) {
         allureReporter.startSuite(suite.fullTitle());

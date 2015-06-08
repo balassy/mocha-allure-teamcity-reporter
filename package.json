@@ -1,7 +1,7 @@
 {
   "name": "mocha-allure-teamcity-reporter",
   "description": "Allure reporter for Mocha that produces reports for both TeamCity and Allure at the same time.",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "main": "index.js",
   "license": "MIT",
   "repository": {
