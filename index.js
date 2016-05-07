@@ -1,13 +1,19 @@
-var Base = require('mocha').reporters.Base,
-    Allure = require('allure-js-commons'),
-    allureReporter = new Allure(),
-    Runtime = require('allure-js-commons/runtime'),
-    log = console.log;
+"use strict";
+var Base = require("mocha").reporters.Base;
+var Allure = require("allure-js-commons");
+var allureReporter = new Allure();
+var Runtime = require("allure-js-commons/runtime");
+var log = console.log;
 
 global.allure = new Runtime(allureReporter);
-module.exports = AllureReporter;
 
-
+/**
+ * Initialize a new `Allure` test reporter.
+ *
+ * @param {Runner} runner
+ * @param {Object} opts mocha options
+ * @api public
+ */
 function AllureReporter(runner, opts) {
     Base.call(this, runner);
     allureReporter.setOptions(opts.reporterOptions || {});
@@ -43,12 +49,21 @@ function AllureReporter(runner, opts) {
     });
 
     runner.on('fail', function (test, err) {
+        if(!allureReporter.getCurrentTest()) {
+            allureReporter.startCase(test.title);
+        }
         var status = err.name === 'AssertionError' ? 'failed' : 'broken';
         if (global.onError) {
             global.onError(err);
         }
         allureReporter.endCase(status, err);
         log("##teamcity[testFailed name='" + escape(test.title) + "' message='" + escape(err.message) + "' captureStandardOutput='true']");
+    });
+
+    runner.on("hook end", function(hook) {
+        if(hook.title.indexOf('"after each" hook') === 0) {
+            allureReporter.endCase("passed");
+        }
     });
 }
 
@@ -68,4 +83,4 @@ function escape(str) {
         .replace(/'/g, "|'");
 }
 
-AllureReporter.prototype.__proto__ = Base.prototype;
+module.exports = AllureReporter;
