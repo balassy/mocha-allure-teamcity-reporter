@@ -15,22 +15,30 @@ global.allure = new Runtime(allureReporter);
  * @api public
  */
 function AllureReporter(runner, opts) {
+    if(opts.modifySuiteName && typeof opts.modifySuiteName !== 'function') {
+        throw new Error('The "modifySuiteName" option must be a function!');
+    }
+
     Base.call(this, runner);
     allureReporter.setOptions(opts.reporterOptions || {});
 
     runner.on('suite', function (suite) {
-        allureReporter.startSuite(suite.fullTitle());
+        var suiteTitle = opts.modifySuiteName ? opts.modifySuiteName(suite.title) : suite.title;
+
+        allureReporter.startSuite(suiteTitle);
 
         if (suite.root) return;
         suite.startDate = Date.now();
-        log("##teamcity[testSuiteStarted name='" + escape(suite.title) + "']");
+        log("##teamcity[testSuiteStarted name='" + escape(suiteTitle) + "']");
     });
 
     runner.on('suite end', function (suite) {
+        var suiteTitle = opts.modifySuiteName ? opts.modifySuiteName(suite.title) : suite.title;
+
         allureReporter.endSuite();
 
         if (suite.root) return;
-        log("##teamcity[testSuiteFinished name='" + escape(suite.title) + "' duration='" + (Date.now() - suite.startDate) + "']");
+        log("##teamcity[testSuiteFinished name='" + escape(suiteTitle) + "' duration='" + (Date.now() - suite.startDate) + "']");
     });
 
     runner.on('test', function (test) {
