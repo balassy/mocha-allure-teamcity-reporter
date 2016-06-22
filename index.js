@@ -19,6 +19,20 @@ function AllureReporter(runner, opts) {
         throw new Error('The "modifySuiteName" option must be a function!');
     }
 
+    if(opts.captureScreenshotOnFailedTest) {
+        afterEach(function(done) {
+            if(this.currentTest.state === 'failed') {
+                return browser.takeScreenshot().then(function (png) {
+                    allure.createAttachment('Failed test case screenshot', new Buffer(png, 'base64'), 'image/png');
+                    done();
+                });
+            }
+            else {
+                done();
+            }
+        });
+    }
+
     Base.call(this, runner);
     allureReporter.setOptions(opts.reporterOptions || {});
 
