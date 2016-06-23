@@ -15,17 +15,26 @@ global.allure = new Runtime(allureReporter);
  * @api public
  */
 function AllureReporter(runner, opts) {
-    if(opts.modifySuiteName && typeof opts.modifySuiteName !== 'function') {
+    if (opts.modifySuiteName && typeof opts.modifySuiteName !== 'function') {
         throw new Error('The "modifySuiteName" option must be a function!');
     }
 
-    if(opts.captureScreenshotOnFailedTest) {
-        afterEach(function(done) {
-            if(this.currentTest.state === 'failed') {
-                return browser.takeScreenshot().then(function (png) {
-                    allure.createAttachment('Failed test case screenshot', new Buffer(png, 'base64'), 'image/png');
+    if (opts.captureScreenshotOnFailedTest) {
+        afterEach(function (done) {
+            if (this.currentTest.state === 'failed') {
+                try {
+                    return browser.takeScreenshot()
+                        .then(function (png) {
+                            allure.createAttachment('Failed test case screenshot', new Buffer(png, 'base64'), 'image/png');
+                            done();
+                        })
+                        .catch(function () {
+                            done();
+                        });
+                }
+                catch (e) {
                     done();
-                });
+                }
             }
             else {
                 done();
@@ -71,7 +80,7 @@ function AllureReporter(runner, opts) {
     });
 
     runner.on('fail', function (test, err) {
-        if(!allureReporter.getCurrentTest()) {
+        if (!allureReporter.getCurrentTest()) {
             allureReporter.startCase(test.title);
         }
         var status = err.name === 'AssertionError' ? 'failed' : 'broken';
@@ -82,8 +91,8 @@ function AllureReporter(runner, opts) {
         log("##teamcity[testFailed name='" + escape(test.title) + "' message='" + escape(err.message) + "' captureStandardOutput='true']");
     });
 
-    runner.on("hook end", function(hook) {
-        if(hook.title.indexOf('"after each" hook') === 0) {
+    runner.on("hook end", function (hook) {
+        if (hook.title.indexOf('"after each" hook') === 0) {
             allureReporter.endCase("passed");
         }
     });
