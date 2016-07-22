@@ -46,7 +46,7 @@ function AllureReporter(runner, opts) {
     allureReporter.setOptions(opts.reporterOptions || {});
 
     runner.on('suite', function (suite) {
-        var suiteTitle = opts.modifySuiteName ? opts.modifySuiteName(suite.title) : suite.title;
+        var suiteTitle = opts.modifySuiteName ? opts.modifySuiteName(suite.fullTitle()) : suite.fullTitle();
 
         allureReporter.startSuite(suiteTitle);
 
@@ -56,7 +56,7 @@ function AllureReporter(runner, opts) {
     });
 
     runner.on('suite end', function (suite) {
-        var suiteTitle = opts.modifySuiteName ? opts.modifySuiteName(suite.title) : suite.title;
+        var suiteTitle = opts.modifySuiteName ? opts.modifySuiteName(suite.fullTitle()) : suite.fullTitle();
 
         allureReporter.endSuite();
 
