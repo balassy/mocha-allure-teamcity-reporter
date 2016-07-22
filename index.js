@@ -21,19 +21,19 @@ function AllureReporter(runner, opts) {
 
     if (opts.captureScreenshotOnFailedTest) {
         afterEach(function (done) {
-            if (this.currentTest.state === 'failed') {
+            if (this.currentTest && this.currentTest.state === 'failed') {
                 try {
                     return browser.takeScreenshot()
                         .then(function (png) {
                             allure.createAttachment('Failed test case screenshot', new Buffer(png, 'base64'), 'image/png');
                             done();
                         })
-                        .catch(function () {
-                            done();
+                        .catch(function (e) {
+                            done(e);
                         });
                 }
                 catch (e) {
-                    done();
+                    done(e);
                 }
             }
             else {
